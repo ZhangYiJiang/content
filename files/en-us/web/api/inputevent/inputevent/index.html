@@ -54,6 +54,19 @@ browser-compat: api.InputEvent.InputEvent
   </dd>
 </dl>
 
+<h3 id="Workaround_for_Safari">Workaround for Safari</h3>
+
+<p>Safari does not support <em>inputEventInit</em> at the moment, which makes it difficult to
+  define properties such as <code>inputType</code> as these are readonly after initialization.
+  One workaround is to define an instance of the parent class {{APIRef("UIEvent")}} instead
+  and assign the init properties afterwards</p>
+
+<pre
+  class="brush: js">const e = new UIEvent('beforeinput');
+Object.assign(e, { inputType: 'insertText', data: 'Inserted text', dataTransfer: null });
+// If e needs to pass instanceof InputEvent checks
+Object.setPrototypeOf(e, InputEvent.prototype);</pre>
+
 <h2 id="Browser_compatibility">Browser compatibility</h2>
 
 <p>{{Compat}}</p>
